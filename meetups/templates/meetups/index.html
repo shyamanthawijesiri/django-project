@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Meetups</title>
     <link rel="stylesheet" href="{% static 'meetups/styles/base.css' %}">
+    <link rel="stylesheet" href="{% static 'meetups/styles/all-meetups.css' %}">
 </head>
 <body>
     <header>
-        <nav><a href="/meetups">DjangoMeetups</a></nav>
+        <nav><a href="/meetups"  id="main-logo">DjangoMeetups</a></nav>
         <h1>we got new meetups</h1>
         <p>find the best suits</p>
     </header>
@@ -21,7 +22,7 @@
                 {% for item in meetups %}
                     <li class="meetup-item">
                         <article>
-                            <div class="meetupo-summary">
+                            <div class="meetup-summary">
                                 <div class="meetup-image">
                                     <img src="" alt="">
                                 </div>
