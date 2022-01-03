@@ -5,40 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Meetups</title>
+    <title>{%block title%}My Meetup{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'meetups/styles/base.css' %}">
-    <link rel="stylesheet" href="{% static 'meetups/styles/all-meetups.css' %}">
+    {% block site_css%}{% endblock %}
 </head>
 <body>
     <header>
         <nav><a href="/meetups"  id="main-logo">DjangoMeetups</a></nav>
-        <h1>we got new meetups</h1>
-        <p>find the best suits</p>
+        <h1>{% block main_heading %}{% endblock %}</h1>
+        <p>{% block header_content %}{% endblock %}</p>
     </header>
     <main>
-        <section>
-            <h2>Upcomming meetups</h2>
-            <ol>
-                {% for item in meetups %}
-                    <li class="meetup-item">
-                        <article>
-                            <div class="meetup-summary">
-                                <div class="meetup-image">
-                                    <img src="" alt="">
-                                </div>
-                                <div class="meetup-details">
-                                    <h3>{{ item.title}}</h3>
-                                    <address>{{ item.location}}</address>
-                                </div>
-                            </div>
-                            <div class="meetup-actions">
-                                <a href="{%url 'meetup-detail' item.slug%}" class="btn">More details</a>
-                            </div>
-                        </article>
-                    </li>
-                {% endfor %}
-            </ol>
-        </section>
+        {% block body %}{% endblock %}
     </main>
 </body>
 </html>
