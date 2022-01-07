@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Meetup
+
+from .forms import RegistrationForm
+from .models import Meetup, Participants
 
 # Create your views here.
 def index(request):
@@ -33,11 +35,22 @@ def meeup_details(request,meetup_slug):
     # })
     try:
         seleted_meetup = Meetup.objects.get(slug=meetup_slug)
+        if request.method == 'GET':
+            registraion_form = RegistrationForm()
+            
+        else:
+            registraion_form = RegistrationForm(request.POST)
+            if registraion_form.is_valid():
+                participants = registraion_form.save()
+                seleted_meetup.participants.add(participants)
+
         return render(request,'meetups/meetup-details.html',{
-            'meetup_found':True,
-            'meetup_title':seleted_meetup.title,
-            'meetup_description':seleted_meetup.description
-        })
+                'meetup_found':True,
+                'meetup':seleted_meetup,
+                'form': registraion_form
+                # 'meetup_title':seleted_meetup.title,
+                # 'meetup_description':seleted_meetup.description
+            })     
     except Exception as e:
          return render(request,'meetups/meetup-details.html',{
             'meetup_found':False
