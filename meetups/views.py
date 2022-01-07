@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .forms import RegistrationForm
@@ -41,8 +41,11 @@ def meeup_details(request,meetup_slug):
         else:
             registraion_form = RegistrationForm(request.POST)
             if registraion_form.is_valid():
-                participants = registraion_form.save()
-                seleted_meetup.participants.add(participants)
+                # participants = registraion_form.save()
+                user_email = registraion_form.cleaned_data['email']
+                participant,_=Participants.objects.get_or_create(email=user_email)
+                seleted_meetup.Participants.add(participant)
+                return redirect('confirm-registration')
 
         return render(request,'meetups/meetup-details.html',{
                 'meetup_found':True,
@@ -52,6 +55,10 @@ def meeup_details(request,meetup_slug):
                 # 'meetup_description':seleted_meetup.description
             })     
     except Exception as e:
-         return render(request,'meetups/meetup-details.html',{
-            'meetup_found':False
+        print(e)
+        return render(request,'meetups/meetup-details.html',{
+        'meetup_found':False
         })
+
+def confirm_registration(request):
+    return render(request, 'meetups/registration-success.html')
